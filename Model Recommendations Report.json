@@ -1,0 +1,1082 @@
+{
+  "name": "Model Recommendations Report",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -448
+      ],
+      "id": "79ab3c4b-75cf-4256-b295-a3f0972ffa60",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1gHqT1Qz-dtjUzQR0KreQqLKVJJaKyFSp6Ok-VD9-ZS8",
+          "mode": "list",
+          "cachedResultName": "Sample of Model Recommendation Queue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gHqT1Qz-dtjUzQR0KreQqLKVJJaKyFSp6Ok-VD9-ZS8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gHqT1Qz-dtjUzQR0KreQqLKVJJaKyFSp6Ok-VD9-ZS8/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "COMPLETED"
+            },
+            {
+              "lookupColumn": "Processed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -512,
+        -192
+      ],
+      "id": "e0975b52-6d97-4706-94cb-8ebcfaa3cb8c",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1DsZzuhaWExKoBPC",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "=WIW_Suggestions_{{ $now.format('yyyy_MM_dd') }}__{{ $now.setZone('America/Chicago').format('HH_mm_ss') }}",
+        "sheetsUi": {
+          "sheetValues": [
+            {
+              "title": "AI_Results"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -288,
+        -448
+      ],
+      "id": "5ae73b1d-7820-4e64-b963-0ab86c19b1cc",
+      "name": "Create spreadsheet",
+      "executeOnce": true,
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1DsZzuhaWExKoBPC",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').item.json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "AI_Results",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Input Category": "={{ $json['Input Category'] }}",
+            "Input Manufacturer": "={{ $json['Input Manufacturer'] }}",
+            "Input Model": "={{ $json['Input Model'] }}",
+            "Status": "={{ $json.Status }}",
+            "Submitted Category": "={{ $json['Submitted Category'] }}",
+            "Submitted Manufacturer": "={{ $json['Submitted Manufacturer'] }}",
+            "Submitted Model": "={{ $json['Submitted Model'] }}",
+            "Recommendation Results": "={{ $json['Recommendation Results'] }}",
+            "Suggested Category": "={{ $json['Suggested Category'] }}",
+            "Suggested Manufacturer": "={{ $json['Suggested Manufacturer'] }}",
+            "Suggested Model": "={{ $json['Suggested Model'] }}",
+            "Confidence": "={{ $json.Confidence }}",
+            "Match Result": "={{ $json['Match Result'] }}",
+            "Explanation": "={{ $json.Explanation }}",
+            "Job ID": "={{ $json['Job ID'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Input Category",
+              "displayName": "Input Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Input Manufacturer",
+              "displayName": "Input Manufacturer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Input Model",
+              "displayName": "Input Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted Category",
+              "displayName": "Submitted Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted Manufacturer",
+              "displayName": "Submitted Manufacturer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted Model",
+              "displayName": "Submitted Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Recommendation Results",
+              "displayName": "Recommendation Results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suggested Category",
+              "displayName": "Suggested Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suggested Manufacturer",
+              "displayName": "Suggested Manufacturer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suggested Model",
+              "displayName": "Suggested Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Confidence",
+              "displayName": "Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Match Result",
+              "displayName": "Match Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Explanation",
+              "displayName": "Explanation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Job ID",
+              "displayName": "Job ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        -192
+      ],
+      "id": "e986076e-1ec3-4ee5-9eac-52b4c44cbec0",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1DsZzuhaWExKoBPC",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bc913a07-8295-4d32-af52-49b14ce69ff1",
+              "name": "Response",
+              "value": "={{ $json.Response.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "selected",
+        "includeFields": "[\"Input Category\"], [\"Input Manufacturer\"], [\"Input Model\"], Status, [\"Job ID\"]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -336,
+        -192
+      ],
+      "id": "fbc1f9cb-e6b5-4e43-bb7b-1565f41fb13b",
+      "name": "Parse JSON Response"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b085f3fd-e671-427d-89ac-668bc256b73d",
+              "name": "Submitted Category",
+              "value": "={{ $json.Response.submitted.category }}",
+              "type": "string"
+            },
+            {
+              "id": "aeb62477-d0cb-41d1-a9bd-8e6a02ceaa13",
+              "name": "Submitted Manufacturer",
+              "value": "={{ $json.Response.submitted.manufacturer }}",
+              "type": "string"
+            },
+            {
+              "id": "931eae7e-77fd-4b80-94c0-62c0ef0393ef",
+              "name": "Submitted Model",
+              "value": "={{ $json.Response.submitted.model }}",
+              "type": "string"
+            },
+            {
+              "id": "534f4da4-4f18-46c5-a54f-2a177108fd5f",
+              "name": "Confidence",
+              "value": "={{ $json.Response.confidence }}",
+              "type": "number"
+            },
+            {
+              "id": "11ed5683-5a69-4c4e-bd6c-bac91d13cf99",
+              "name": "Explanation",
+              "value": "={{ $json.Response.explanation }}",
+              "type": "string"
+            },
+            {
+              "id": "7157cd59-e437-4538-8124-c2ac65e9cbba",
+              "name": "Suggested Category",
+              "value": "={{ $json.Response.canonical ? $json.Response.canonical.category : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "e242f982-ddc8-4199-aaed-6687391c7672",
+              "name": "Suggested Manufacturer",
+              "value": "={{ $json.Response.canonical ? $json.Response.canonical.manufacturer : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "4ff57f0c-f43f-46bc-8f5b-0076da57bd5b",
+              "name": "Suggested Model",
+              "value": "={{ $json.Response.canonical ? $json.Response.canonical.model : '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "selected",
+        "includeFields": "[\"Input Category\"], [\"Input Manufacturer\"], [\"Input Model\"], Status, [\"Job ID\"]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        -192
+      ],
+      "id": "c5bf5929-15bd-4761-8567-8d420cd53d9d",
+      "name": "Flatten JSON Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4385f87c-3323-40f6-9344-f522ffc2f722",
+              "name": "Match Result",
+              "value": "={{ $json.Explanation && $json.Explanation == 'Found in the database' ? 'Existing Entry' : 'Missing Entry' }}",
+              "type": "string"
+            },
+            {
+              "id": "6520f8ab-c60b-4b7f-b955-411e3fc5596f",
+              "name": "Recommendation Results",
+              "value": "={{ $json.Explanation == 'Found in the database' ? 'NA' : $json[\"Suggested Manufacturer\"] !== \"\" && $json[\"Suggested_Model\"] !== \"\" ? 'Suggestion' : 'Failed' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        -192
+      ],
+      "id": "77f6c035-e16c-419c-8f53-9ca9160e425c",
+      "name": "Add Computed Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1gHqT1Qz-dtjUzQR0KreQqLKVJJaKyFSp6Ok-VD9-ZS8",
+          "mode": "list",
+          "cachedResultName": "Sample of Model Recommendation Queue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gHqT1Qz-dtjUzQR0KreQqLKVJJaKyFSp6Ok-VD9-ZS8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gHqT1Qz-dtjUzQR0KreQqLKVJJaKyFSp6Ok-VD9-ZS8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Processed": "COMPLETED",
+            "Job ID": "={{ $json['Job ID'] }}"
+          },
+          "matchingColumns": [
+            "Job ID"
+          ],
+          "schema": [
+            {
+              "id": "Input Category",
+              "displayName": "Input Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Input Manufacturer",
+              "displayName": "Input Manufacturer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Input Model",
+              "displayName": "Input Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job ID",
+              "displayName": "Job ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Response",
+              "displayName": "Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Updated At",
+              "displayName": "Updated At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Processed",
+              "displayName": "Processed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        0
+      ],
+      "id": "aae5fe76-e52a-45c3-8323-76beb63666e9",
+      "name": "Mark Processed Rows",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1DsZzuhaWExKoBPC",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7304e69a-7948-4a47-af2a-dc688502db47",
+              "name": "columns",
+              "value": "Input Category,Input Manufacturer,Input Model,Submitted Category,Submitted Manufacturer,Submitted Model,Status,Recommendation Results,Suggested Category,Suggested Manufacturer,Suggested Model,Confidence,Match Result,Explanation",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        -448
+      ],
+      "id": "dbdc688d-f7fe-4a7f-8f14-957f864e7f1e",
+      "name": "Create Header Row",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// split header string into JSON\nconst headersArray = $json.columns.split(',');\n\n// Create an object where each key is a header (trimmed) and its value is the header text\nconst headersObject = {};\nheadersArray.forEach (header => {\n  const trimmedHeader = header.trim();\n  headersObject[trimmedHeader] = trimmedHeader;\n});\n\n// Return the object so that each header becomes a column in the first row of your sheet\nreturn [\n  {\n    json: headersObject\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        128,
+        -448
+      ],
+      "id": "b0c80bca-2da7-490f-8243-d24ed987ac3e",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').item.json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "AI_Results",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Input Category",
+              "displayName": "Input Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Input Manufacturer",
+              "displayName": "Input Manufacturer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Input Model",
+              "displayName": "Input Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Response Status Flag",
+              "displayName": "Response Status Flag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted Category",
+              "displayName": "Submitted Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted Manufacturer",
+              "displayName": "Submitted Manufacturer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Confidence",
+              "displayName": "Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suggested Category",
+              "displayName": "Suggested Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suggested Manufacturer",
+              "displayName": "Suggested Manufacturer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suggested Model",
+              "displayName": "Suggested Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Recommendation Results",
+              "displayName": "Recommendation Results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Match Result",
+              "displayName": "Match Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Explanation",
+              "displayName": "Explanation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted Model",
+              "displayName": "Submitted Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Job ID",
+              "displayName": "Job ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        -448
+      ],
+      "id": "98f4eb01-6186-48e7-82cc-5fb0e75cd759",
+      "name": "Add Column Headings",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1DsZzuhaWExKoBPC",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').item.json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "AI_Results",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        576,
+        -448
+      ],
+      "id": "cac936e6-307a-4fe8-af20-fa8c8e90c5c5",
+      "name": "Delete rows or columns from sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1DsZzuhaWExKoBPC",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').item.json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "value": "0AG1P1UohzV-FUk9PVA",
+          "mode": "list",
+          "cachedResultName": "Engineering-Team",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/0AG1P1UohzV-FUk9PVA"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1OFMMSnf1j_lJEfMYDdJYxj1a0r4qs4zX",
+          "mode": "list",
+          "cachedResultName": "Shared Documents",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1OFMMSnf1j_lJEfMYDdJYxj1a0r4qs4zX"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        384,
+        -192
+      ],
+      "id": "a3d753bb-0351-4d7a-a674-dd788ad1dd27",
+      "name": "Move file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mL9K7CW3Tf8t60wc",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toRecipients": "igor.kasriel@stsrecycle.com",
+        "subject": "WIW Model Reccommendation Updated Sheet",
+        "bodyContent": "The latest sheet of AI generated suggestions is attached",
+        "additionalFields": {
+          "attachments": {
+            "attachments": [
+              {
+                "binaryPropertyName": "data"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        736,
+        -192
+      ],
+      "id": "778b9cba-67e5-4bf9-8022-cf206031dfe3",
+      "name": "Send a message",
+      "webhookId": "80dcb520-7898-4b92-bb2d-918228f884a9"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        560,
+        -192
+      ],
+      "id": "d87a5344-7c23-40b4-ab00-b54ea0664121",
+      "name": "Download file",
+      "executeOnce": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "mL9K7CW3Tf8t60wc",
+          "name": "N8N Google Oauth2 Client (STS Devops User)"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Create Header Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Mark Processed Rows",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Move file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON Response": {
+      "main": [
+        [
+          {
+            "node": "Flatten JSON Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten JSON Data": {
+      "main": [
+        [
+          {
+            "node": "Add Computed Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Computed Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Header Row": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Add Column Headings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Column Headings": {
+      "main": [
+        [
+          {
+            "node": "Delete rows or columns from sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete rows or columns from sheet": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move file": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "df0306ac-f4b6-48c3-b147-72625216edce",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "699354da17cdad78d134c6f27b266f85f0df854d284a1397dbc0c8a1911bd0e1"
+  },
+  "id": "lYwYUNT3st1YwtgD",
+  "tags": []
+}
