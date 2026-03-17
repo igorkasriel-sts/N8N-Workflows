@@ -852,6 +852,7 @@
       ],
       "id": "a3d753bb-0351-4d7a-a674-dd788ad1dd27",
       "name": "Move file",
+      "executeOnce": true,
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "mL9K7CW3Tf8t60wc",
@@ -882,7 +883,8 @@
       ],
       "id": "778b9cba-67e5-4bf9-8022-cf206031dfe3",
       "name": "Send a message",
-      "webhookId": "80dcb520-7898-4b92-bb2d-918228f884a9"
+      "webhookId": "80dcb520-7898-4b92-bb2d-918228f884a9",
+      "executeOnce": true
     },
     {
       "parameters": {
@@ -1072,7 +1074,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "df0306ac-f4b6-48c3-b147-72625216edce",
+  "versionId": "ce21236f-0e4f-479a-b7a1-1d86337fc3ce",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "699354da17cdad78d134c6f27b266f85f0df854d284a1397dbc0c8a1911bd0e1"
