@@ -862,7 +862,7 @@
     },
     {
       "parameters": {
-        "toRecipients": "igor.kasriel@stsrecycle.com",
+        "toRecipients": "wiw.team@stsrecycle.com",
         "subject": "WIW Model Reccommendation Updated Sheet",
         "bodyContent": "The latest sheet of AI generated suggestions is attached",
         "additionalFields": {
@@ -884,7 +884,13 @@
       "id": "778b9cba-67e5-4bf9-8022-cf206031dfe3",
       "name": "Send a message",
       "webhookId": "80dcb520-7898-4b92-bb2d-918228f884a9",
-      "executeOnce": true
+      "executeOnce": true,
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "wWFvAlAQ6SZGu0Zv",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
     },
     {
       "parameters": {
@@ -894,7 +900,12 @@
           "value": "={{ $json.id }}",
           "mode": "id"
         },
-        "options": {}
+        "options": {
+          "googleFileConversion": {
+            "conversion": {}
+          },
+          "fileName": "={{ $json.name }}.csv"
+        }
       },
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
@@ -958,12 +969,12 @@
       "main": [
         [
           {
-            "node": "Mark Processed Rows",
+            "node": "Move file",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Move file",
+            "node": "Mark Processed Rows",
             "type": "main",
             "index": 0
           }
@@ -1074,7 +1085,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "ce21236f-0e4f-479a-b7a1-1d86337fc3ce",
+  "versionId": "c4a8120a-91fc-4ba0-9be5-f82e6a38207f",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "699354da17cdad78d134c6f27b266f85f0df854d284a1397dbc0c8a1911bd0e1"
